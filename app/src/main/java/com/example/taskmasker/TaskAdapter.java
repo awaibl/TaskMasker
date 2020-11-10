@@ -22,6 +22,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         public TextView taskDueDate;
         public ImageView taskPriority;
 
+        //Daten implementieren
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -33,6 +34,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     }
 
+    //Konstruktor
     public TaskAdapter(TaskDao dao) {
         this.dao = dao;
         loadTasks();
@@ -44,6 +46,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     @NonNull
     @Override
+    //neues View erstellen
     public TaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from((parent.getContext()));
@@ -53,6 +56,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     }
 
     @Override
+    //Inhalte des Views austauschen
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
 
         Task task = tasks.get(position);
@@ -69,6 +73,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     }
 
     @Override
+    // Größe des Datensets zurückgeben
     public int getItemCount() {
         return tasks == null ? 0 : tasks.size();
     }
