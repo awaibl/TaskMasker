@@ -18,12 +18,14 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    AppDatabase database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AppDatabase database = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "task_db")
+        database = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "task_db")
                 .allowMainThreadQueries()
                 .build();
 
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 t.priority = (int) Math.ceil(Math.random() * 3); //1 = high, 2 = medium, 3 = keines
                 database.getTaskDao().addTask(t);
             }
-        } */
+        }*/
 
         RecyclerView taskList = findViewById(R.id.task_list);
         taskList.setLayoutManager(new LinearLayoutManager(this));
@@ -48,12 +50,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    //Übung 1
     @Override
     public void onClick(View v) {
-        ImageButton button = new ImageButton(this);
-        button.findViewById(R.id.button);
+        ImageButton button = (ImageButton) v;
+        button.setOnClickListener(this);
 
         Intent intent = new Intent(this,ManageTaskActivity.class);
+
+        //Übung 5
+        intent.putExtra("id", database.getTaskDao().getId());
+
+        startActivity(intent);
+
+    }
+
+    //Übung 5
+    public void onClickForList(View v){
+        ImageButton button = (ImageButton) v;
+        button.setOnClickListener(this);
+
+        Intent intent = new Intent(this,ManageTaskActivity.class);
+
         startActivity(intent);
     }
+
+
 }

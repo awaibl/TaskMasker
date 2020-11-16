@@ -1,5 +1,9 @@
 package com.example.taskmasker;
 
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Spinner;
+
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 

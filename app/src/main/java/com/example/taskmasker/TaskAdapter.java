@@ -73,10 +73,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     }
 
     @Override
-    // Größe des Datensets zurückgeben
     public int getItemCount() {
-        return tasks == null ? 0 : tasks.size();
+        return 0;
     }
-
 
 }
