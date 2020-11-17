@@ -1,13 +1,9 @@
 package com.example.taskmasker;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.room.Room;
-
-import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,9 +11,11 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class ManageTaskActivity extends AppCompatActivity {
 
@@ -46,11 +44,6 @@ public class ManageTaskActivity extends AppCompatActivity {
 
         priority = findViewById(R.id.priority_spinner);
 
-        //Übung 5
-        if(getIntent().hasExtra("id")){
-            update();
-        }
-
     }
 
     //Übung 3
@@ -64,18 +57,48 @@ public class ManageTaskActivity extends AppCompatActivity {
         return true;
     }
 
-    //Übung 4
+    //Übung 4/5
      @Override
      public boolean onOptionsItemSelected(MenuItem item){
 
         if(item.getTitle() != null && item.getTitle().equals("save")){
 
-            Task task = new Task();
+            //Übung 5
+            if (getIntent().hasExtra("id")){
 
-            task.title = title.getText().toString();
-            task.dueDate = getDateFromDatePicker(date);
-            task.priority = getIntPriority(priority);
-            database.getTaskDao().addTask(task);
+                Toast.makeText(this, title + " " + date + priority, Toast.LENGTH_SHORT).show();
+
+                TextView text = findViewById(R.id.title_text);
+                text.setText(title.getText().toString());
+
+                Date dateDate = new Date();
+
+                Calendar calendar = new GregorianCalendar();
+                calendar.setTime(dateDate);
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                date.updateDate(year, month, day);
+
+                int index = getIntPriority(priority);
+                priority.setSelection(index);
+
+                Task task = new Task();
+
+                database.getTaskDao().updateTask(task);
+
+            }else{
+
+                //Übung 4
+                Task task = new Task();
+
+                task.title = title.getText().toString();
+                task.dueDate = getDateFromDatePicker(date);
+                task.priority = getIntPriority(priority);
+
+                database.getTaskDao().addTask(task);
+            }
 
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
@@ -118,28 +141,7 @@ public class ManageTaskActivity extends AppCompatActivity {
 
      }
 
-     //Übung 5
-    public void update(){
-
-        Task task = new Task();
-
-        Intent intent = new Intent();
-        int id = intent.getIntExtra("id",0);
-
-        if(id == database.getTaskDao().getId()){
-            TextView text = findViewById(R.id.title_text);
-            text.setText(title.getText().toString());
-
-            date = findViewById(R.id.date_picker);
-
-            priority = findViewById(R.id.priority_spinner);
-            
-        }
-
-        database.getTaskDao().updateTask(task);
-    }
 
     //Übung 6
-
 
 }

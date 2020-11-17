@@ -4,21 +4,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Database;
 import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     AppDatabase database;
+    RecyclerView taskList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .allowMainThreadQueries()
                 .build();
 
-        /*if(database.getTaskDao().getAllTasks().size() == 0){
+        if(database.getTaskDao().getAllTasks().size() == 0){
             for(int i = 0; i < 20; i++){
                 Task t = new Task();
                 t.title = "Task title " + i;
@@ -37,9 +35,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 t.priority = (int) Math.ceil(Math.random() * 3); //1 = high, 2 = medium, 3 = keines
                 database.getTaskDao().addTask(t);
             }
-        }*/
+        }
 
-        RecyclerView taskList = findViewById(R.id.task_list);
+        taskList = findViewById(R.id.task_list);
         taskList.setLayoutManager(new LinearLayoutManager(this));
         taskList.setAdapter(new TaskAdapter(database.getTaskDao()));
 
@@ -53,27 +51,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //Übung 1
     @Override
     public void onClick(View v) {
-        ImageButton button = (ImageButton) v;
-        button.setOnClickListener(this);
 
-        Intent intent = new Intent(this,ManageTaskActivity.class);
+        Intent intent = new Intent(this, ManageTaskActivity.class);
 
         //Übung 5
-        intent.putExtra("id", database.getTaskDao().getId());
+        //intent.putExtra("id", getTaskId());
 
         startActivity(intent);
 
     }
 
-    //Übung 5
-    public void onClickForList(View v){
-        ImageButton button = (ImageButton) v;
-        button.setOnClickListener(this);
+    public void onListClick(View v){
+        Intent intent = new Intent(this, ManageTaskActivity.class);
 
-        Intent intent = new Intent(this,ManageTaskActivity.class);
+        intent.putExtra("id", getTaskId());
+
+        //Toast.makeText(this, getTaskId(), Toast.LENGTH_SHORT).show();
 
         startActivity(intent);
     }
-
 
 }

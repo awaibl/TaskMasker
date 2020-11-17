@@ -62,7 +62,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         Task task = tasks.get(position);
         holder.taskTitle.setText(task.title);
         holder.taskDueDate.setText(task.getFormatedDate());
-        //priority fehlt if einbauen (gelbes/rotes/keines)
 
         if(task.priority == 2){
             holder.taskPriority.setImageResource(R.drawable.priority_medium);
@@ -74,7 +73,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     @Override
     public int getItemCount() {
-        return 0;
+        return tasks == null ? 0 : tasks.size();
     }
 
 }
