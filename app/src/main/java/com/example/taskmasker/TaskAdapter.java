@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -15,12 +16,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     protected  TaskDao dao;
     protected List<Task> tasks;
-
+    static int  itemId = 0;
     public static class TaskViewHolder extends RecyclerView.ViewHolder {
 
         public TextView taskTitle;
         public TextView taskDueDate;
         public ImageView taskPriority;
+        public ConstraintLayout taskContainer;
 
         //Daten implementieren
         public TaskViewHolder(@NonNull View itemView) {
@@ -29,7 +31,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             taskTitle = itemView.findViewById(R.id.task_title);
             taskDueDate = itemView.findViewById(R.id.task_date);
             taskPriority = itemView.findViewById(R.id.task_priority);
-
+            taskContainer = itemView.findViewById(R.id.taskContainer);
         }
 
     }
@@ -62,6 +64,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         Task task = tasks.get(position);
         holder.taskTitle.setText(task.title);
         holder.taskDueDate.setText(task.getFormatedDate());
+        holder.taskContainer.setTag(task.id);
 
         if(task.priority == 2){
             holder.taskPriority.setImageResource(R.drawable.priority_medium);

@@ -15,8 +15,8 @@ public interface TaskDao {
     public List<Task> getAllTasks();
 
     //Übung 5
-    @Query("SELECT id FROM Task")
-    public int getId();
+    @Query("SELECT * from Task WHERE id like :ID")
+    public Task getTask(int ID);
 
     @Insert
     public void addTask(Task task);

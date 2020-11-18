@@ -15,7 +15,7 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    AppDatabase database;
+    public static AppDatabase database;
     RecyclerView taskList;
 
     @Override
@@ -56,18 +56,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //Übung 5
         //intent.putExtra("id", getTaskId());
-
         startActivity(intent);
-
     }
-
+    static int  itemId = 1;
     public void onListClick(View v){
         Intent intent = new Intent(this, ManageTaskActivity.class);
 
-        intent.putExtra("id", getTaskId());
-
+        intent.putExtra("id", itemId);
+        intent.putExtra("taskID", Integer.valueOf(v.getTag().toString()));
         //Toast.makeText(this, getTaskId(), Toast.LENGTH_SHORT).show();
-
+        //ManageTaskActivity.setDB(database);
         startActivity(intent);
     }
 
